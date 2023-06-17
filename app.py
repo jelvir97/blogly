@@ -24,3 +24,7 @@ def home_page():
 def users_list():
     users = User.query.all()
     return render_template('user_list.html',users=users)
+
+@app.route('/users/new')
+def user_form():
+    return render_template('user_form.html')
