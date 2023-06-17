@@ -29,7 +29,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50),
                      nullable=False)
     
-    last_name = db.Column(db.String(),
+    img_url = db.Column(db.String(),
                      nullable=False,
                      default='https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png')
     
