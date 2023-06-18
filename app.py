@@ -45,3 +45,27 @@ def add_user():
 def user_detail(user_id):
     user = User.query.get(int(user_id))
     return render_template('user_detail.html',user=user)
+
+@app.route('/users/<user_id>/edit')
+def edit_user_detail(user_id):
+    user = User.query.get(int(user_id))
+    return render_template('edit_user_form.html',user=user)
+
+@app.route('/users/<user_id>/edit',methods = ['POST'])
+def update_user_detail(user_id):
+    user = User.query.get(int(user_id))
+    resp = request.form
+    
+    user.first_name = resp['first-name'] if resp['first-name'] else user.first_name
+    user.last_name = resp['last-name'] if resp['last-name'] else user.last_name
+    user.img_url = resp['img-url'] if resp['img-url'] else user.img_url
+
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
+
+@app.route('/users/<user_id>/delete')
+def delete_user(user_id):
+    user = User.query.get(int(user_id))
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('/users')

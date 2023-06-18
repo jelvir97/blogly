@@ -6,5 +6,7 @@
     <img src="{{user.img_url}}" alt="">
     <p>First Name: {{user.first_name}}</p>
     <p>Last Name: {{user.last_name}}</p>
+    <a href="/users/{{user.id}}/edit">Update Profile</a>
+    <a href="/users/{{user.id}}/delete">Delete Profile</a>
     <a href="/users">Go Back</a>
 {% endblock %}
