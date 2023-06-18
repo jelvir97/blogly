@@ -25,6 +25,7 @@ class BloglyTests(TestCase):
         db.session.rollback()
 
     def test_users_list(self):
+        """Tests /users route"""
         with app.test_client() as client:
             resp = client.get('/users')
             html = resp.get_data(as_text=True)
@@ -35,6 +36,7 @@ class BloglyTests(TestCase):
             self.assertEqual(len(users),1)
 
     def test_user_details(self):
+        """Tests /user/<user_id> route. Responds with user details page."""
         with app.test_client() as client:
             resp = client.get(f'/users/{self.user_id}')
             html = resp.get_data(as_text=True)
@@ -45,6 +47,7 @@ class BloglyTests(TestCase):
             self.assertIn('<img',html)
 
     def test_add_user(self):
+        """Tests /users/new route"""
         with app.test_client() as client:
             d ={"first-name": "Bob","last-name": "Dylan","img-url":""}
             resp = client.post('/users/new',data=d,follow_redirects=True)
@@ -56,6 +59,7 @@ class BloglyTests(TestCase):
             self.assertEqual(len(users),2)
 
     def test_user_edit(self):
+        """Tests /user/<user_id>/edit route"""
         with app.test_client() as client:
             d ={"first-name": "Bob","last-name": "Dylan","img-url":""}
             resp = client.post(f'/users/{self.user_id}/edit',data=d,follow_redirects=True)
