@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'woohoo!123'
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 app.app_context().push()

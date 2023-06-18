@@ -17,7 +17,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     def __repr__(self):
-        return f"<User first_name = {self.firstName} last_name={self.last_name}>"
+        return f"<User first_name = {self.first_name} last_name={self.last_name}>"
     
     id = db.Column(db.Integer,
                    primary_key=True,
