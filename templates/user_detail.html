@@ -3,10 +3,22 @@
 {% block title %}{{user.first_name}} {{user.last_name}}{% endblock%}
 
 {% block contents %}
-    <img src="{{user.img_url}}" alt="">
+    <img src="{{user.img_url}}" alt="" style="height: 250px;">
     <p>First Name: {{user.first_name}}</p>
     <p>Last Name: {{user.last_name}}</p>
     <a href="/users/{{user.id}}/edit">Update Profile</a>
     <a href="/users/{{user.id}}/delete">Delete Profile</a>
     <a href="/users">Go Back</a>
+
+    <h3>Posts</h3>
+    {% if posts %}
+        <ul>
+        {% for post in posts%}
+            <a href="">{{post.title}}</a>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h4>No Posts Yet</h4>
+    {% endif %}
+
 {% endblock %}

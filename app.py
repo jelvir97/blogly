@@ -49,7 +49,9 @@ def add_user():
 def user_detail(user_id):
     """Renders page displaying user details."""
     user = User.query.get(int(user_id))
-    return render_template('user_detail.html',user=user)
+    posts = Post.query.filter(Post.user_id == int(user_id)).all()
+
+    return render_template('user_detail.html',user=user,posts=posts)
 
 @app.route('/users/<user_id>/edit')
 def edit_user_detail(user_id):
