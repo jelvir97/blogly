@@ -79,3 +79,16 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect('/users')
+
+@app.route('/users/<user_id>/posts/new')
+def new_post_form(user_id):
+    return render_template('post_form.html',user_id=user_id)
+
+@app.route('/users/<user_id>/posts/new',methods = ['POST'])
+def new_post(user_id):
+    title= request.form['title']
+    content = request.form['content']
+    new_post = Post(title=title, content=content, user_id=int(user_id))
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(f'/users/{user_id}')

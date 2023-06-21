@@ -14,11 +14,12 @@
     {% if posts %}
         <ul>
         {% for post in posts%}
-            <a href="">{{post.title}}</a>
+            <li><a href="">{{post.title}}</a></li>
         {% endfor %}
         </ul>
     {% else %}
         <h4>No Posts Yet</h4>
     {% endif %}
+    <a href="/users/{{user.id}}/posts/new">Add Post</a>
 
 {% endblock %}
