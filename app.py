@@ -92,3 +92,8 @@ def new_post(user_id):
     db.session.add(new_post)
     db.session.commit()
     return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<post_id>')
+def post_details(post_id):
+    post = Post.query.get(int(post_id))
+    return render_template('post_details.html',post=post)
