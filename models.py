@@ -34,7 +34,7 @@ class User(db.Model):
                      nullable=False,
                      default='https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png')
     
-    posts = db.relationship('Post')
+    posts = db.relationship('Post',cascade="all, delete-orphan")
     
 
 class Post(db.Model):
