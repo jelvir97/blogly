@@ -83,14 +83,20 @@ def delete_user(user_id):
 @app.route('/users/<user_id>/posts/new')
 def new_post_form(user_id):
     """Renders form to add new post"""
-    return render_template('post_form.html',user_id=user_id)
+    tags = Tag.query.all()
+    return render_template('post_form.html',user_id=user_id,tags=tags)
 
 @app.route('/users/<user_id>/posts/new',methods = ['POST'])
 def new_post(user_id):
     """Handles new blogpost POST request"""
     title= request.form['title']
     content = request.form['content']
+    tags = request.form.getlist('tags')
     new_post = Post(title=title, content=content, user_id=int(user_id))
+    if tags:
+        for tag_id in tags:
+            tag = Tag.query.get(int(tag_id))
+            new_post.tags.append(tag)
     db.session.add(new_post)
     db.session.commit()
     return redirect(f'/users/{user_id}')
@@ -104,16 +110,23 @@ def post_details(post_id):
 @app.route('/posts/<post_id>/edit')
 def post_edit(post_id):
     """Renders form to edit existing post"""
+    tags = Tag.query.all()
     post = Post.query.get(int(post_id))
-    return render_template('post_edit.html',post=post)
+    return render_template('post_edit.html',post=post, tags=tags)
 
 @app.route('/posts/<post_id>/edit',methods=['POST'])
 def post_update(post_id):
     """Handles edit post POST request"""
     post= Post.query.get(int(post_id))
     resp = request.form
+    tags = request.form.getlist('tags')
     post.title = resp['title'] if resp['title'] else post.title
     post.content = resp['content'] if resp['content'] else post.content
+    post.tags = []
+    if tags:
+        for tag_id in tags:
+            tag = Tag.query.get(int(tag_id))
+            post.tags.append(tag)
     db.session.commit()
 
     return redirect(f"/posts/{post_id}")

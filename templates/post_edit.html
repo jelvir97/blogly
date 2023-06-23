@@ -13,6 +13,13 @@
         <label for="content">Post Text:</label>
         <textarea id="content" name="content" rows="4" cols="50">{{post.content}}</textarea>
     </div>
+    <div>
+        <h3>Add Tags</h5>
+        {% for tag in tags %}
+            
+        <label><input type="checkbox" name="tags"  value="{{tag.id}}" {% if tag in post.tags %} checked {% endif %}>{{tag.name}}</label>
+        {% endfor %}
+    </div>
         <button type="submit">Update</button>
     </form>
 {% endblock %}
