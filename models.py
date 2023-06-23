@@ -57,3 +57,13 @@ class Post(db.Model):
                      nullable=False,)
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+class Tag(db.Model):
+    __tablename__="tags"
+
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
+    
+    name = db.Column(db.Text,
+                     nullable=False)
