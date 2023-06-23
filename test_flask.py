@@ -1,6 +1,6 @@
 from unittest import TestCase
 from app import app
-from models import User, db, Post
+from models import User, db, Post, Tag
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
 app.config['SQLALCHEMY_ECHO'] = False
@@ -14,6 +14,7 @@ class BloglyTests(TestCase):
 
     def setUp(self):
         "Clean up existing users and add sample user"
+        Tag.query.delete()
         Post.query.delete()
         User.query.delete()
         user = User(first_name="John",last_name="Doe")
@@ -113,4 +114,14 @@ class BloglyTests(TestCase):
 
             self.assertEqual(resp2.status_code,200)
             self.assertIn('No Posts Yet',html2)
+
+    def test_tags_new(self):
+        """Test adding new tag"""
+        with app.test_client() as client:
+            d = {'name':'Sports'}
+            resp = client.post(f'/tags/new',data=d,follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code,200)
+            self.assertIn('Sports',html)
             
