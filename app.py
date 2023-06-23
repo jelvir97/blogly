@@ -159,4 +159,11 @@ def tags_edit(tag_id):
     tag.name = request.form["name"]
     db.session.add(tag)
     db.session.commit()
-    return redirect(f'/tags/{tag.id}')
+    return redirect(f'/tags')
+
+@app.route('/tags/<tag_id>/delete')
+def tags_delete(tag_id):
+    tag = Tag.query.get(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect('/tags')
