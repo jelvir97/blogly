@@ -7,6 +7,12 @@
     <hr>
     <p>{{post.content}}</p>
     <hr>
+    <h4>Tags
+        {% for tag in post.tags %} 
+        <span><a href="/tags/{{tag.id}}">{{tag.name}}</a></span>
+        {% endfor %}
+    </h4>
+    <hr>
     <small>Posted {{post.created_at}}</small>
     <a href="/posts/{{post.id}}/edit">Edit Post</a>
     <a href="/posts/{{post.id}}/delete">Delete</a>
