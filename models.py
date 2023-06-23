@@ -34,7 +34,7 @@ class User(db.Model):
                      nullable=False,
                      default='https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png')
     
-    posts = db.relationship('Post',cascade="all, delete-orphan")
+    posts = db.relationship('Post',cascade="all, delete-orphan", backref='user')
     
 
 class Post(db.Model):
@@ -61,9 +61,27 @@ class Post(db.Model):
 class Tag(db.Model):
     __tablename__="tags"
 
+    def __repr__(self):
+        return f"<Tag {self.name}>"
+
     id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True)
     
     name = db.Column(db.Text,
                      nullable=False)
+    
+    posts = db.relationship('Post', 
+                            secondary='post_tag',
+                            backref='tags')
+    
+class PostTag(db.Model):
+    __tablename__="post_tag"
+
+    post_id = db.Column(db.Integer,
+                        db.ForeignKey('posts.id'),
+                        primary_key=True)
+
+    tag_id = db.Column(db.Integer,
+                       db.ForeignKey('tags.id'),
+                       primary_key=True)
