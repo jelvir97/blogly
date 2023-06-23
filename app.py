@@ -7,7 +7,7 @@ from sqlalchemy import Text, text
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'woohoo!123'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False

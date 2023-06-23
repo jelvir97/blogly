@@ -125,3 +125,22 @@ class BloglyTests(TestCase):
             self.assertEqual(resp.status_code,200)
             self.assertIn('Sports',html)
             
+    def test_tags_delete(self):
+        with app.test_client() as client:
+            d = {'name':'Sports'}
+            resp1 = client.post('/tags/new',data=d,follow_redirects=True)
+            html1 = resp1.get_data(as_text=True)
+            tags = Tag.query.all()
+
+            self.assertEqual(resp1.status_code,200)
+            self.assertIn('Sports',html1)
+            self.assertEqual(len(tags),1)
+            
+            tag = Tag.query.one()
+            resp2 = client.get(f'/tags/{tag.id}/delete',follow_redirects=True)
+            html2= resp2.get_data(as_text=True)
+            tags = Tag.query.all()
+
+            self.assertEqual(resp1.status_code,200)
+            self.assertNotIn('Sports',html2)
+            self.assertEqual(len(tags),0)
