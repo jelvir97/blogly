@@ -97,7 +97,7 @@ def new_post(user_id):
 
 @app.route('/posts/<post_id>')
 def post_details(post_id):
-    """Renders page with post title,content and dat created"""
+    """Renders page with post title,content and date created"""
     post = Post.query.get(int(post_id))
     return render_template('post_details.html',post=post)
 
@@ -142,3 +142,21 @@ def tags_new():
     db.session.add(tag)
     db.session.commit()
     return redirect('/tags')
+
+@app.route('/tags/<tag_id>')
+def tag_details(tag_id):
+    tag = Tag.query.get(int(tag_id))
+    return render_template('tag_details.html',tag=tag)
+
+@app.route('/tags/<tag_id>/edit')
+def tags_edit_form(tag_id):
+    tag = Tag.query.get(int(tag_id))
+    return render_template('tag_edit.html',tag=tag)
+
+@app.route('/tags/<tag_id>/edit',methods=["POST"])
+def tags_edit(tag_id):
+    tag = Tag.query.get(int(tag_id))
+    tag.name = request.form["name"]
+    db.session.add(tag)
+    db.session.commit()
+    return redirect(f'/tags/{tag.id}')

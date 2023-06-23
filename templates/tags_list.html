@@ -7,7 +7,7 @@
     <hr>
     <ul>
         {% for tag in tags %}
-            <li><a href="">{{tag.name}} </a></li>
+            <li><a href="/tags/{{tag.id}}">{{tag.name}} </a></li>
         {% endfor %}
     </ul>
     <a href="/tags/new">Add New Tag</a>
