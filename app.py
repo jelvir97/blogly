@@ -141,15 +141,18 @@ def delete_post(post_id):
 
 @app.route('/tags')
 def tags_list():
+    """Renders List of Tags"""
     tags = Tag.query.all()
     return render_template('tags_list.html',tags=tags)
 
 @app.route('/tags/new')
 def tags_new_form():
+    """Renders new tag form"""
     return render_template('tag_form.html')
 
 @app.route('/tags/new', methods=["POST"])
 def tags_new():
+    """Handles new tag POST request"""
     name = request.form['name']
     tag = Tag(name=name)
     db.session.add(tag)
@@ -158,16 +161,19 @@ def tags_new():
 
 @app.route('/tags/<tag_id>')
 def tag_details(tag_id):
+    """Renders page with tag details"""
     tag = Tag.query.get(int(tag_id))
     return render_template('tag_details.html',tag=tag)
 
 @app.route('/tags/<tag_id>/edit')
 def tags_edit_form(tag_id):
+    """Renders tag edit form"""
     tag = Tag.query.get(int(tag_id))
     return render_template('tag_edit.html',tag=tag)
 
 @app.route('/tags/<tag_id>/edit',methods=["POST"])
 def tags_edit(tag_id):
+    """Handles tag edit POST request"""
     tag = Tag.query.get(int(tag_id))
     tag.name = request.form["name"]
     db.session.add(tag)
@@ -176,6 +182,7 @@ def tags_edit(tag_id):
 
 @app.route('/tags/<tag_id>/delete')
 def tags_delete(tag_id):
+    """Handles tag delete request. Redirects to tag list"""
     tag = Tag.query.get(tag_id)
     db.session.delete(tag)
     db.session.commit()
