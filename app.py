@@ -82,10 +82,12 @@ def delete_user(user_id):
 
 @app.route('/users/<user_id>/posts/new')
 def new_post_form(user_id):
+    """Renders form to add new post"""
     return render_template('post_form.html',user_id=user_id)
 
 @app.route('/users/<user_id>/posts/new',methods = ['POST'])
 def new_post(user_id):
+    """Handles new blogpost POST request"""
     title= request.form['title']
     content = request.form['content']
     new_post = Post(title=title, content=content, user_id=int(user_id))
@@ -95,16 +97,19 @@ def new_post(user_id):
 
 @app.route('/posts/<post_id>')
 def post_details(post_id):
+    """Renders page with post title,content and dat created"""
     post = Post.query.get(int(post_id))
     return render_template('post_details.html',post=post)
 
 @app.route('/posts/<post_id>/edit')
 def post_edit(post_id):
+    """Renders form to edit existing post"""
     post = Post.query.get(int(post_id))
     return render_template('post_edit.html',post=post)
 
 @app.route('/posts/<post_id>/edit',methods=['POST'])
 def post_update(post_id):
+    """Handles edit post POST request"""
     post= Post.query.get(int(post_id))
     resp = request.form
     post.title = resp['title'] if resp['title'] else post.title
@@ -115,8 +120,25 @@ def post_update(post_id):
 
 @app.route('/posts/<post_id>/delete')
 def delete_post(post_id):
-    """Deletes user from db"""
+    """Deletes Post"""
     post = Post.query.get(int(post_id))
     db.session.delete(post)
     db.session.commit()
     return redirect(f'/users/{post.user_id}')
+
+@app.route('/tags')
+def tags_list():
+    tags = Tag.query.all()
+    return render_template('tags_list.html',tags=tags)
+
+@app.route('/tags/new')
+def tags_new_form():
+    return render_template('tag_form.html')
+
+@app.route('/tags/new', methods=["POST"])
+def tags_new():
+    name = request.form['name']
+    tag = Tag(name=name)
+    db.session.add(tag)
+    db.session.commit()
+    return redirect('/tags')
